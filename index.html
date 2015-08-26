@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+	<label>Enter a Room Name:</label>
+	<input id="roomName"></input>
+	<button>Connect</button>
+	<video height="300" id="localVideo"></video>
+	<div id="remotesVideos"></div>
+
+
+	<script src="public/scripts/simpleWebRTC.js" type="text/javascript"></script>
+	<script type="text/javascript">
+
+	button = document.querySelector('button');
+	button.addEventListener('click', connect);
+
+	function connect() {
+		var roomName = document.querySelector('#roomName').value;
+		if (roomName.length>0) {
+			var webrtc = new SimpleWebRTC({
+	  // the id/element dom element that will hold "our" video
+	  localVideoEl: 'localVideo',
+	  // the id/element dom element that will hold remote videos
+	  remoteVideosEl: 'remotesVideos',
+	  // immediately ask for camera access
+	  autoRequestMedia: true
+	});
+	  // we have to wait until it's ready
+	  webrtc.on('readyToCall', function () {
+	 // you can name it anything
+	 webrtc.joinRoom(roomName);
+	});
+	}
+	else {
+		alert('please enter a room name!');
+	}
+}
+</script>
+</body>
+</html>
